@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "firepup650"
-version = "1.0.39"
+version = "1.0.41"
 authors = ["Firepup650 <firepyp650@gmail.com>"]
 description = "Package containing various shorthand things I use, and a few imports I almost always use"
 readme = "README.md"

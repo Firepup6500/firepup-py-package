@@ -1,7 +1,9 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
-#### v.1.0.39:
+#### v.1.0.41:
+Windows "Support"
+#### v.1.0.40:
 Add offset mapping all the way up to 10 Billion, which exceeds the integer limit.
 #### v.1.0.39:
 Add offset mappings for exceeding 1 Million options, new limit is 10 Million options

@@ -1,10 +1,19 @@
 """Firepup650's PYPI Package"""
 
-import os, sys, termios, tty, time, sqlite3, ast, pydoc  # type: ignore[import]
-import random as r
-import fkeycapture as fkey
-import fpsql as fql
+fkey, termios, tty = None, None, None
 from warnings import warn as ww
+
+try:
+    import termios, tty, fkeycapture as fkey
+except ImportError:
+    ww(
+        "Warning! This module has reduced functionality on Windows! I hope you know what you're doing!",
+        stackLevel=2,
+    )
+
+import os, sys, time, sqlite3, ast, pydoc  # type: ignore[import]
+import random as r
+import fpsql as fql
 from typing import NoReturn, TypeVar, Type, Optional, List, Any, Union
 from collections.abc import Iterable
 
@@ -32,9 +41,13 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.34"
-__NEW__ = "Adds methods to hide/show the cursor and a menu system"
+__VERSION__ = "1.0.41"
+__NEW__ = 'Windows "Support"'
 __LICENSE__ = "MIT"
+
+
+class NotImplementedOnWindowsException(NotImplementedException):
+    """Exception raised when a Linux only method is called on a Windows machine"""
 
 
 def flushPrint(*args) -> None:
@@ -124,38 +137,52 @@ def gp(
     allowDelete: bool = False,
     filler: str = "-",
 ) -> Union[str, bytes]:
-    """# Function: gp
-      Get keys and print them.
-    # Inputs:
-      keycount: int - Number of keys to get, defaults to 1
-      chars: list - List of keys to accept, defaults to ["1", "2"]
-      bytes: bool - Wether to return the kyes as bytes, defaults to False
-      allowDelete: bool - Wether to allow deleting chars, defaults to False
-      filler: str - The character to use as filler when waiting on more chars, defaults to "-"
+    raise NotImplementedOnWindowsException(
+        "This method is not implemented for Windows machines"
+    )
 
-    # Returns:
-      Union[str, bytes] - Keys pressed
 
-    # Raises:
-      None"""
-    got = 0
-    keys = []
-    if allowDelete:
-        chars.append(fkey.KEYS["BACKSPACE"].decode())
-    flushPrint(filler * keycount)
-    while len(keys) < keycount:
-        key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
-        if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
-            keys.append(key.decode())
-        elif len(keys):
-            keys.pop()
-        flushPrint(f"\033[{keycount}D{''.join(keys)}{filler*(keycount-len(keys))}")
-        got += 1
-    print()
-    if not bytes:
-        return "".join(keys)
-    else:
-        return ("".join(keys)).encode()
+if fkey:
+
+    def gp(
+        keycount: int = 1,
+        chars: list = ["1", "2"],
+        bytes: bool = False,
+        allowDelete: bool = False,
+        filler: str = "-",
+    ) -> Union[str, bytes]:
+        """# Function: gp
+          Get keys and print them.
+        # Inputs:
+          keycount: int - Number of keys to get, defaults to 1
+          chars: list - List of keys to accept, defaults to ["1", "2"]
+          bytes: bool - Wether to return the kyes as bytes, defaults to False
+          allowDelete: bool - Wether to allow deleting chars, defaults to False
+          filler: str - The character to use as filler when waiting on more chars, defaults to "-"
+
+        # Returns:
+          Union[str, bytes] - Keys pressed
+
+        # Raises:
+          None"""
+        got = 0
+        keys = []
+        if allowDelete:
+            chars.append(fkey.KEYS["BACKSPACE"].decode())
+        flushPrint(filler * keycount)
+        while len(keys) < keycount:
+            key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
+            if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
+                keys.append(key.decode())
+            elif len(keys):
+                keys.pop()
+            flushPrint(f"\033[{keycount}D{''.join(keys)}{filler*(keycount-len(keys))}")
+            got += 1
+        print()
+        if not bytes:
+            return "".join(keys)
+        else:
+            return ("".join(keys)).encode()
 
 
 def gh(
@@ -166,65 +193,88 @@ def gh(
     allowDelete: bool = False,
     filler: str = "-",
 ) -> Union[str, bytes]:
-    """# Function: gh
-      Get keys and print `char` in their place.
-    # Inputs:
-      keycount: int - Number of keys to get, defaults to 1
-      chars: list - List of keys to accept, defaults to ["1", "2"]
-      char: str - Character to use to obfuscate the keys, defaults to *
-      bytes: bool - Wether to return the kyes as bytes, defaults to False
-      allowDelete: bool - Wether to allow deleting chars, defaults to False
-      filler: str - The character to use as filler when waiting on more chars, defaults to "-"
+    raise NotImplementedOnWindowsException(
+        "This method is not implemented for Windows machines"
+    )
 
-    # Returns:
-      Union[str, bytes] - Keys pressed
 
-    # Raises:
-      None"""
-    got = 0
-    keys = []
-    if allowDelete:
-        chars.append(fkey.KEYS["BACKSPACE"].decode())
-    flushPrint(filler * keycount)
-    while len(keys) < keycount:
-        key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
-        if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
-            keys.append(key.decode())
-        elif len(keys):
-            keys.pop()
-        flushPrint(f"\033[{keycount}D{char*len(keys)}{filler*(keycount-len(keys))}")
-        got += 1
-    print()
-    if not bytes:
-        return "".join(keys)
-    else:
-        return ("".join(keys)).encode()
+if fkey:
+
+    def gh(
+        keycount: int = 1,
+        chars: list = ["1", "2"],
+        char: str = "*",
+        bytes: bool = False,
+        allowDelete: bool = False,
+        filler: str = "-",
+    ) -> Union[str, bytes]:
+        """# Function: gh
+          Get keys and print `char` in their place.
+        # Inputs:
+          keycount: int - Number of keys to get, defaults to 1
+          chars: list - List of keys to accept, defaults to ["1", "2"]
+          char: str - Character to use to obfuscate the keys, defaults to *
+          bytes: bool - Wether to return the kyes as bytes, defaults to False
+          allowDelete: bool - Wether to allow deleting chars, defaults to False
+          filler: str - The character to use as filler when waiting on more chars, defaults to "-"
+
+        # Returns:
+          Union[str, bytes] - Keys pressed
+
+        # Raises:
+          None"""
+        got = 0
+        keys = []
+        if allowDelete:
+            chars.append(fkey.KEYS["BACKSPACE"].decode())
+        flushPrint(filler * keycount)
+        while len(keys) < keycount:
+            key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
+            if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
+                keys.append(key.decode())
+            elif len(keys):
+                keys.pop()
+            flushPrint(f"\033[{keycount}D{char*len(keys)}{filler*(keycount-len(keys))}")
+            got += 1
+        print()
+        if not bytes:
+            return "".join(keys)
+        else:
+            return ("".join(keys)).encode()
 
 
 def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
-    """# Function: printt
-      Print out animated text!
-    # Inputs:
-      text: str - Text to print (could technicaly be a list)
-      delay: float - How long to delay between characters, defaults to 0.1
-      newline: bool - Wether or not to add a newline at the end of the text, defaults to True
+    raise NotImplementedOnWindowsException(
+        "This method is not implemented for Windows machines"
+    )
 
-    # Returns:
-      None
 
-    # Raises:
-      None"""
-    # Store the current terminal settings
-    original_terminal_settings = termios.tcgetattr(sys.stdin)
-    # Change terminal settings to prevent any interruptions
-    tty.setcbreak(sys.stdin)
-    for char in text:
-        flushPrint(char)
-        time.sleep(delay)
-    if newline:
-        print()
-    # Restore the original terminal settings
-    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, original_terminal_settings)
+if fkey:
+
+    def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
+        """# Function: printt
+          Print out animated text!
+        # Inputs:
+          text: str - Text to print (could technicaly be a list)
+          delay: float - How long to delay between characters, defaults to 0.1
+          newline: bool - Wether or not to add a newline at the end of the text, defaults to True
+
+        # Returns:
+          None
+
+        # Raises:
+          None"""
+        # Store the current terminal settings
+        original_terminal_settings = termios.tcgetattr(sys.stdin)
+        # Change terminal settings to prevent any interruptions
+        tty.setcbreak(sys.stdin)
+        for char in text:
+            flushPrint(char)
+            time.sleep(delay)
+        if newline:
+            print()
+        # Restore the original terminal settings
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, original_terminal_settings)
 
 
 @alias(time.sleep)
@@ -633,11 +683,12 @@ class console:
         # Raises:
           None"""
         ind = 1
-        while warning in console.__warnings__:
-            warning = f"{warning}({ind})"
+        warn = warning
+        while warn in console.__warnings__:
+            warn = f"{warning}({ind})"
             ind += 1
-        console.__warnings__.append(warning)
-        ww(warning, class_, 2)
+        console.__warnings__.append(warn)
+        ww(warn, class_, 2)
 
     @staticmethod
     def error(*args, **kwargs) -> None:
@@ -855,81 +906,89 @@ def hidden(func):
     return wrapper
 
 
-@hidden
 def menu(options: dict, title: str = "") -> object:
-    """# Function: menu
-    Uses a nice interactive for the provided options
-    # Inputs:
-    options: dict - A dictionary of options and their return values
-
-    # Returns:
-    object - The user's selected option
-
-    # Raises:
-    None"""
-    if type(options) != dict:
-        raise ValueError(f"options must be a dictionary (passed a {type(options)})")
-    if len(options) <= 1:
-        raise ValueError(
-            f"options must contain at least two choices (passed {len(options)})"
-        )
-    choices = list(options)
-    limit = len(choices)
-    current = 0
-    selected = False
-    UP = [fkey.KEYS["UP"], b"w", b"a", fkey.KEYS["LEFT"]]
-    DOWN = [fkey.KEYS["DOWN"], b"s", b"d", fkey.KEYS["RIGHT"]]
-    indicatorSize = len(str(limit)) * 2 + 1
-    indicatorOffset = 999
-    match indicatorSize:
-        case 3:  # 1-9 options (Ten rolls over)
-            indicatorOffset = 1
-        case 5:  # 10-99 options (One Hundered rolls over)
-            indicatorOffset = 0
-        case 7:  # 100-999 options (One Thousand rolls over)
-            indicatorOffset = -1
-        case 9:  # 1000-9999 options (Ten Thousand rolls over)
-            indicatorOffset = -2
-        case 11:  # 10000-99999 options (One Hundred Thousand rolls over)
-            indicatorOffset = -3
-        case 13:  # 100000-999999 options (One Million rolls over)
-            indicatorOffset = -4
-        case 15:  # 1000000-9999999 options (Ten Million rolls over)
-            indicatorOffset = -5
-        case 17:  # 10000000-99999999 options (One Hundred Million rolls over)
-            indicatorOffset = -6
-        case 19:  # 100000000-999999999 options (One Billion rolls over)
-            indicatorOffset = -7
-        case (
-            21
-        ):  # 1000000000=9999999999 options (Ten Billion rolls over) (This exceeds integer limits, so if we get over this I've got no clue how.)
-            indicatorOffset = -8
-        case _:
-            raise ValueError(
-                f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
-            )
-    menuWidth = max(
-        [max([len(choice) for choice in choices]) + 4, indicatorSize * 2 + 7]
+    raise NotImplementedOnWindowsException(
+        "This method is not implemented for Windows machines"
     )
-    while not selected:
-        clear()
-        flushPrint(
-            (title + "\n" if title else "")
-            + f"╔{'═'*menuWidth}╗\n"
-            + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-indicatorOffset+(1 if menuWidth%2==0 else 0))}  ║\n"
-            + f"║←{' '*int(((menuWidth-len(choices[current]))/2)-1)}{choices[current]}{' '*int((menuWidth-len(choices[current]))/2-.5)}→║\n"
-            + f"║{' '*int((menuWidth-1)/2)}↓{' '*int((menuWidth-1)/2+.5)}║\n"
-            + f"╚{'═'*menuWidth}╝\n"
+
+
+if fkey:
+
+    @hidden
+    def menu(options: dict, title: str = "") -> object:
+        """# Function: menu
+        Uses a nice interactive for the provided options
+        # Inputs:
+        options: dict - A dictionary of options and their return values
+
+        # Returns:
+        object - The user's selected option
+
+        # Raises:
+        None"""
+        if type(options) != dict:
+            raise ValueError(f"options must be a dictionary (passed a {type(options)})")
+        if len(options) <= 1:
+            raise ValueError(
+                f"options must contain at least two choices (passed {len(options)})"
+            )
+        choices = list(options)
+        limit = len(choices)
+        current = 0
+        selected = False
+        UP = [fkey.KEYS["UP"], b"w", b"a", fkey.KEYS["LEFT"]]
+        DOWN = [fkey.KEYS["DOWN"], b"s", b"d", fkey.KEYS["RIGHT"]]
+        indicatorSize = len(str(limit)) * 2 + 1
+        indicatorOffset = 999
+        match indicatorSize:
+            case 3:  # 1-9 options (Ten rolls over)
+                indicatorOffset = 1
+            case 5:  # 10-99 options (One Hundered rolls over)
+                indicatorOffset = 0
+            case 7:  # 100-999 options (One Thousand rolls over)
+                indicatorOffset = -1
+            case 9:  # 1000-9999 options (Ten Thousand rolls over)
+                indicatorOffset = -2
+            case 11:  # 10000-99999 options (One Hundred Thousand rolls over)
+                indicatorOffset = -3
+            case 13:  # 100000-999999 options (One Million rolls over)
+                indicatorOffset = -4
+            case 15:  # 1000000-9999999 options (Ten Million rolls over)
+                indicatorOffset = -5
+            case 17:  # 10000000-99999999 options (One Hundred Million rolls over)
+                indicatorOffset = -6
+            case 19:  # 100000000-999999999 options (One Billion rolls over)
+                indicatorOffset = -7
+            case (
+                21
+            ):  # 1000000000-9999999999 options (Ten Billion rolls over) (This exceeds integer limits, so if we get over this I've got no clue how.)
+                indicatorOffset = -8
+            case _:
+                raise ValueError(
+                    f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
+                )
+        menuWidth = max(
+            [max([len(choice) for choice in choices]) + 4, indicatorSize * 2 + 7]
         )
-        key = fkey.get(bytes=True, osReader=True)
-        if key in UP:
-            current -= 1
-        elif key in DOWN:
-            current += 1
-        elif key in [fkey.KEYS["ENTER"]]:
-            break
-        if current > limit - 1:
-            current = 0
-        if current < 0:
-            current = limit - 1
-    return options[choices[current]]
+        while not selected:
+            clear()
+            flushPrint(
+                (title + "\n" if title else "")
+                + f"╔{'═'*menuWidth}╗\n"
+                + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-indicatorOffset+(1 if menuWidth%2==0 else 0))}  ║\n"
+                + f"║←{' '*int(((menuWidth-len(choices[current]))/2)-1)}{choices[current]}{' '*int((menuWidth-len(choices[current]))/2-.5)}→║\n"
+                + f"║{' '*int((menuWidth-1)/2)}↓{' '*int((menuWidth-1)/2+.5)}║\n"
+                + f"╚{'═'*menuWidth}╝\n"
+            )
+            key = fkey.get(bytes=True, osReader=True)
+            if key in UP:
+                current -= 1
+            elif key in DOWN:
+                current += 1
+            elif key in [fkey.KEYS["ENTER"]]:
+                break
+            if current > limit - 1:
+                current = 0
+            if current < 0:
+                current = limit - 1
+        return options[choices[current]]
