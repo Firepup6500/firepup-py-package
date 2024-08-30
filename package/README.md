@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.0.42:
+Small typo fix (`stackLevel` -> `stacklevel`)
 #### v.1.0.41:
 Windows "Support"
 #### v.1.0.40:

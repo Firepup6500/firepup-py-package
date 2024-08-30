@@ -8,7 +8,7 @@ try:
 except ImportError:
     ww(
         "Warning! This module has reduced functionality on Windows! I hope you know what you're doing!",
-        stackLevel=2,
+        stacklevel=2,
     )
 
 import os, sys, time, sqlite3, ast, pydoc  # type: ignore[import]
@@ -41,8 +41,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.41"
-__NEW__ = 'Windows "Support"'
+__VERSION__ = "1.0.42"
+__NEW__ = "Small typo fix"
 __LICENSE__ = "MIT"
 
 
