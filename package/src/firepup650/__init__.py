@@ -46,7 +46,7 @@ __NEW__ = "Small typo fix"
 __LICENSE__ = "MIT"
 
 
-class NotImplementedOnWindowsException(NotImplementedException):
+class NotImplementedOnWindowsException(NotImplementedError):
     """Exception raised when a Linux only method is called on a Windows machine"""
 
 
