@@ -992,3 +992,18 @@ if fkey:
             if current < 0:
                 current = limit - 1
         return options[choices[current]]
+
+
+def getRandomNumber() -> int:
+    """# Function: getRandomNumber
+    Returns 4
+    # Inputs:
+    None
+
+    # Returns:
+    int - 4
+
+    # Raises:
+    None"""
+    return 4  # chosen by fair dice roll.
+    # garunteed to be random.
