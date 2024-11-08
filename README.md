@@ -1,6 +1,24 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.0.44:
+Added a getRandomNumber function (xkcd 221)
+#### v.1.0.43:
+Called the error the wrong thing
+#### v.1.0.42:
+Small typo fix (`stackLevel` -> `stacklevel`)
+#### v.1.0.41:
+Windows "Support"
+#### v.1.0.40:
+Add offset mapping all the way up to 10 Billion, which exceeds the integer limit.
+#### v.1.0.39:
+Add offset mappings for exceeding 1 Million options, new limit is 10 Million options
+#### v.1.0.38:
+Mappings for much larger menu sizes, hopefully no one should ever hit that limit.
+#### v.1.0.37:
+Upgrades to gp and gh, they now function as stand-alone prompts, and allow deletion of characters as well (`allowDelete` must be set to `True`)
+#### v.1.0.36:
+Fix an old annoying bug with menus having an incorrect size calculation if the width of the menu was an even number
 #### v.1.0.35:
 Adds a few missing docstrings and fixes a bug with the menu function
 #### v.1.0.34:
