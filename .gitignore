@@ -6,3 +6,4 @@ venv/**
 .config/**
 replit*txt
 .replit
+package/dist/**
