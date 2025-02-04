@@ -41,8 +41,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.45"
-__NEW__ = "Added an explode function (dangerous!!)"
+__VERSION__ = "1.0.46"
+__NEW__ = "Project metadata update"
 __LICENSE__ = "MIT"
 
 

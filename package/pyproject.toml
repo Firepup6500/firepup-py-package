@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "firepup650"
-version = "1.0.45"
-authors = ["Firepup650 <firepyp650@gmail.com>"]
+version = "1.0.46"
+authors = ["Firepup650 <firepup650@firepup650.com>"]
 description = "Package containing various shorthand things I use, and a few imports I almost always use"
 readme = "README.md"
 classifiers = [
@@ -14,10 +14,9 @@ classifiers = [
     "Natural Language :: English",
 ]
 license = "MIT"
-repository = "https://github.com/F1repup650/firepup650-PYPI"
+repository = "https://git.h.hackclub.app/Firepup650/firepup-py-package"
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/F1repup650/firepup650-PYPI/issues"
-Replit = "https://replit.com/@Firepup650/firepup650-PYPI-Package"
+"Bug Tracker" = "https://git.h.hackclub.app/Firepup650/firepup-py-package/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8"
