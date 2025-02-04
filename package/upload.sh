@@ -7,5 +7,4 @@ echo "🛠  Building... 🛠"
 poetry build > /dev/null
 echo -n "☁️  Uploading... ☁️"
 poetry publish -u __token__ -p $TOKEN
-#python3 -m twine upload -r pypi dist/*
 echo "✨ All done! ✨"
