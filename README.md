@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.0.45:
+Added an explode function (dangerous!!)
 #### v.1.0.44:
 Added a getRandomNumber function (xkcd 221)
 #### v.1.0.43:

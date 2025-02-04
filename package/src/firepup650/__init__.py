@@ -41,8 +41,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.42"
-__NEW__ = "Small typo fix"
+__VERSION__ = "1.0.45"
+__NEW__ = "Added an explode function (dangerous!!)"
 __LICENSE__ = "MIT"
 
 
@@ -1007,3 +1007,37 @@ def getRandomNumber() -> int:
     None"""
     return 4  # chosen by fair dice roll.
     # garunteed to be random.
+
+
+class YouDoNotKnowWhatYouAreDoing(Exception):
+    """Exception raised when a Linux only method is called on a Windows machine"""
+
+
+def explode(*_, iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool) -> NoReturn:
+    """# Function: explode
+    Causes a BSoD on Windows, and hangs Linux for a while.
+    This function is not a joke! Be careful of what you're doing.
+    # Inputs:
+    *_ - If any positonal arguments are passed, throws a TypeError
+    iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool - If True, then executes the dangerous code. otherwise raises a "You don't know what you're doing" exception
+
+    # Returns:
+    NoReturn
+
+    # Raises:
+    TypeError - caused if positional arguments are passed
+    YouDoNotKnowWhatYouAreDoing - caused if iKnowWhatIAmDoingLetMeRunTheStupidFunction is not True
+    """
+    if _ != ():
+        raise TypeError(
+            f"explode() takes 0 positional arguments but {len(_)} were given"
+        )
+    if iKnowWhatIAmDoingLetMeRunTheStupidFunction != True:
+        raise yYuDoNotKnowWhatYouAreDoingException("Let me save you from yourself.")
+    sys.setrecursionlimit(2**31 - 1)
+
+    def recur():
+        recur()
+
+    recur()
+    raise NotImplementedError("This code is impossible to reach.")
