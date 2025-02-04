@@ -1,3 +1,4 @@
+source .env
 echo "🧽 Pruging old package files... 🧽"
 rm -rf dist
 mkdir dist
@@ -6,5 +7,6 @@ black . > /dev/null
 echo "🛠  Building... 🛠"
 poetry build > /dev/null
 echo -n "☁️  Uploading... ☁️"
-poetry publish -u __token__ -p $TOKEN
+poetry publish -u __token__ -p $PYPI_TOKEN
 echo "✨ All done! ✨"
+unset PYPI_TOKEN
