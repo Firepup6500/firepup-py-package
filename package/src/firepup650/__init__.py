@@ -1,9 +1,12 @@
 """Firepup650's PYPI Package"""
 
-fkey, termios, tty = None, None, None
+# pylint: disable=wrong-import-position,multiple-imports
 from warnings import warn as ww
 
+fkey, termios, tty = None, None, None
+
 try:
+    # pylint: disable=ungrouped-imports,useless-suppression
     import termios, tty, fkeycapture as fkey
 except ImportError:
     ww(
@@ -13,9 +16,9 @@ except ImportError:
 
 import os, sys, time, sqlite3, ast, pydoc  # type: ignore[import]
 import random as r
-import fpsql as fql
 from typing import NoReturn, TypeVar, Type, Optional, List, Any, Union
 from collections.abc import Iterable
+import fpsql as fql
 
 
 def alias(func):
@@ -41,8 +44,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.47"
-__NEW__ = "Typo fix in safety check"
+__VERSION__ = "1.0.48"
+__NEW__ = "pylint"
 __LICENSE__ = "MIT"
 
 
@@ -67,7 +70,7 @@ def flushPrint(*args) -> None:
 flush_print = flushPrint
 
 
-def clear(ascii: bool = True) -> None:
+def clear(useAscii: bool = True) -> None:
     """# Function: clear
       Clears the screen
     # Inputs:
@@ -78,7 +81,7 @@ def clear(ascii: bool = True) -> None:
 
     # Raises:
       None"""
-    if not ascii:
+    if not useAscii:
         os.system("clear||cls")
     else:
         flushPrint("\033[H\033[2J")
@@ -133,10 +136,12 @@ def e(code: Union[str, int, None] = None) -> NoReturn:
 def gp(
     keycount: int = 1,
     chars: list = ["1", "2"],
-    bytes: bool = False,
+    useBytes: bool = False,
     allowDelete: bool = False,
     filler: str = "-",
 ) -> Union[str, bytes]:
+    "Dummy Function"
+    # pylint: disable=dangerous-default-value
     raise NotImplementedOnWindowsException(
         "This method is not implemented for Windows machines"
     )
@@ -147,7 +152,7 @@ if fkey:
     def gp(
         keycount: int = 1,
         chars: list = ["1", "2"],
-        bytes: bool = False,
+        useBytes: bool = False,
         allowDelete: bool = False,
         filler: str = "-",
     ) -> Union[str, bytes]:
@@ -156,7 +161,7 @@ if fkey:
         # Inputs:
           keycount: int - Number of keys to get, defaults to 1
           chars: list - List of keys to accept, defaults to ["1", "2"]
-          bytes: bool - Wether to return the kyes as bytes, defaults to False
+          useBytes: bool - Wether to return the kyes as bytes, defaults to False
           allowDelete: bool - Wether to allow deleting chars, defaults to False
           filler: str - The character to use as filler when waiting on more chars, defaults to "-"
 
@@ -165,6 +170,7 @@ if fkey:
 
         # Raises:
           None"""
+        # pylint: disable=dangerous-default-value,function-redefined
         got = 0
         keys = []
         if allowDelete:
@@ -174,25 +180,26 @@ if fkey:
             key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
             if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
                 keys.append(key.decode())
-            elif len(keys):
+            elif keys:
                 keys.pop()
             flushPrint(f"\033[{keycount}D{''.join(keys)}{filler*(keycount-len(keys))}")
             got += 1
         print()
-        if not bytes:
+        if not useBytes:
             return "".join(keys)
-        else:
-            return ("".join(keys)).encode()
+        return ("".join(keys)).encode()
 
 
 def gh(
     keycount: int = 1,
     chars: list = ["1", "2"],
     char: str = "*",
-    bytes: bool = False,
+    useBytes: bool = False,
     allowDelete: bool = False,
     filler: str = "-",
 ) -> Union[str, bytes]:
+    "Dummy Function"
+    # pylint: disable=dangerous-default-value
     raise NotImplementedOnWindowsException(
         "This method is not implemented for Windows machines"
     )
@@ -204,7 +211,7 @@ if fkey:
         keycount: int = 1,
         chars: list = ["1", "2"],
         char: str = "*",
-        bytes: bool = False,
+        useBytes: bool = False,
         allowDelete: bool = False,
         filler: str = "-",
     ) -> Union[str, bytes]:
@@ -214,7 +221,7 @@ if fkey:
           keycount: int - Number of keys to get, defaults to 1
           chars: list - List of keys to accept, defaults to ["1", "2"]
           char: str - Character to use to obfuscate the keys, defaults to *
-          bytes: bool - Wether to return the kyes as bytes, defaults to False
+          useBytes: bool - Wether to return the kyes as bytes, defaults to False
           allowDelete: bool - Wether to allow deleting chars, defaults to False
           filler: str - The character to use as filler when waiting on more chars, defaults to "-"
 
@@ -223,6 +230,7 @@ if fkey:
 
         # Raises:
           None"""
+        # pylint: disable=dangerous-default-value,function-redefined
         got = 0
         keys = []
         if allowDelete:
@@ -232,18 +240,18 @@ if fkey:
             key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
             if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
                 keys.append(key.decode())
-            elif len(keys):
+            elif keys:
                 keys.pop()
             flushPrint(f"\033[{keycount}D{char*len(keys)}{filler*(keycount-len(keys))}")
             got += 1
         print()
-        if not bytes:
+        if not useBytes:
             return "".join(keys)
-        else:
-            return ("".join(keys)).encode()
+        return ("".join(keys)).encode()
 
 
 def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
+    "Dummy Function"
     raise NotImplementedOnWindowsException(
         "This method is not implemented for Windows machines"
     )
@@ -264,6 +272,7 @@ if fkey:
 
         # Raises:
           None"""
+        # pylint: disable=function-redefined
         # Store the current terminal settings
         original_terminal_settings = termios.tcgetattr(sys.stdin)
         # Change terminal settings to prevent any interruptions
@@ -343,21 +352,12 @@ def Color(
 
     # Raises:
       None"""
-    if r < 0:
-        r = 0
-    if r > 255:
-        r = 255
-    if g < 0:
-        g = 0
-    if g > 255:
-        g = 255
-    if b < 0:
-        b = 0
-    if b > 255:
-        b = 255
+    r = min(max(r, 0), 255)
+    g = min(max(g, 0), 255)
+    b = min(max(b, 0), 255)
     if bcolor:
         return f"\033[38;2;{r};{g};{b}m"
-    elif flush:
+    if flush:
         flushPrint("\003[0m")
         flushPrint(f"\033[38;2;{r};{g};{b}m")
     else:
@@ -751,7 +751,7 @@ class console:
 
     @alias(clear)
     @staticmethod
-    def clear(ascii: bool = False) -> None:
+    def clear(useAscii: bool = False) -> None:
         """# Function: console.clear
           Clears the screen
         # Inputs:
@@ -762,7 +762,7 @@ class console:
 
         # Raises:
           None"""
-        clear(ascii)
+        clear(useAscii)
 
 
 sql: Type = fql.sql
@@ -820,7 +820,7 @@ def isMath(equation: str) -> bool:
 
     # Raises:
       None"""
-    return all([True if char in "1234567890*/+-.^%!" else False for char in equation])
+    return all(char in "1234567890*/+-.^%!" for char in equation)
 
 
 def makeError(
@@ -843,10 +843,7 @@ def makeError(
         raise type(name, (Exception,), {"__module__": module, "__name__": name})(
             message
         )
-    else:
-        return type(name, (Exception,), {"__module__": module, "__name__": name})(
-            message
-        )
+    return type(name, (Exception,), {"__module__": module, "__name__": name})(message)
 
 
 class cur:
@@ -907,6 +904,7 @@ def hidden(func):
 
 
 def menu(options: dict, title: str = "") -> object:
+    "Dummy Function"
     raise NotImplementedOnWindowsException(
         "This method is not implemented for Windows machines"
     )
@@ -926,7 +924,8 @@ if fkey:
 
         # Raises:
         None"""
-        if type(options) != dict:
+        # pylint: disable=function-redefined
+        if not isinstance(options, dict):
             raise ValueError(f"options must be a dictionary (passed a {type(options)})")
         if len(options) <= 1:
             raise ValueError(
@@ -968,7 +967,7 @@ if fkey:
                     f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
                 )
         menuWidth = max(
-            [max([len(choice) for choice in choices]) + 4, indicatorSize * 2 + 7]
+            [max(len(choice) for choice in choices) + 4, indicatorSize * 2 + 7]
         )
         while not selected:
             clear()
@@ -1009,11 +1008,11 @@ def getRandomNumber() -> int:
     # garunteed to be random.
 
 
-class YouDoNotKnowWhatYouAreDoing(Exception):
+class youDoNotKnowWhatYouAreDoingException(Exception):
     """Exception raised when a Linux only method is called on a Windows machine"""
 
 
-def explode(*_, iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool) -> NoReturn:
+def explode(*, iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool) -> NoReturn:
     """# Function: explode
     Causes a BSoD on Windows, and hangs Linux for a while.
     This function is not a joke! Be careful of what you're doing.
@@ -1028,11 +1027,7 @@ def explode(*_, iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool) -> NoReturn:
     TypeError - caused if positional arguments are passed
     YouDoNotKnowWhatYouAreDoing - caused if iKnowWhatIAmDoingLetMeRunTheStupidFunction is not True
     """
-    if _ != ():
-        raise TypeError(
-            f"explode() takes 0 positional arguments but {len(_)} were given"
-        )
-    if iKnowWhatIAmDoingLetMeRunTheStupidFunction != True:
+    if iKnowWhatIAmDoingLetMeRunTheStupidFunction is not True:
         raise youDoNotKnowWhatYouAreDoingException("Let me save you from yourself.")
     sys.setrecursionlimit(2**31 - 1)
 
