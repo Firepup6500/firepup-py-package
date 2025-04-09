@@ -41,8 +41,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.46"
-__NEW__ = "Project metadata update"
+__VERSION__ = "1.0.47"
+__NEW__ = "Typo fix in safety check"
 __LICENSE__ = "MIT"
 
 
@@ -1033,7 +1033,7 @@ def explode(*_, iKnowWhatIAmDoingLetMeRunTheStupidFunction: bool) -> NoReturn:
             f"explode() takes 0 positional arguments but {len(_)} were given"
         )
     if iKnowWhatIAmDoingLetMeRunTheStupidFunction != True:
-        raise yYuDoNotKnowWhatYouAreDoingException("Let me save you from yourself.")
+        raise youDoNotKnowWhatYouAreDoingException("Let me save you from yourself.")
     sys.setrecursionlimit(2**31 - 1)
 
     def recur():
