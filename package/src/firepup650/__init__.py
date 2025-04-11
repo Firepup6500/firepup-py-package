@@ -44,8 +44,8 @@ def alias(func):
     return decorator
 
 
-__VERSION__ = "1.0.48"
-__NEW__ = "pylint"
+__VERSION__ = "1.1.0"
+__NEW__ = "BREAKING: Update to fkeycapture 1.3.0"
 __LICENSE__ = "MIT"
 
 
@@ -979,7 +979,7 @@ if fkey:
                 + f"║{' '*int((menuWidth-1)/2)}↓{' '*int((menuWidth-1)/2+.5)}║\n"
                 + f"╚{'═'*menuWidth}╝\n"
             )
-            key = fkey.get(bytes=True, osReader=True)
+            key = fkey.get(returnBytes=True, osReader=True)
             if key in UP:
                 current -= 1
             elif key in DOWN:

@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.1.0:
+BREAKING: due to breaking changes in fkeycapture 1.3.0, this package is now only compatible with that version and above.
 #### v.1.0.48:
 pylint
 #### v.1.0.47:
